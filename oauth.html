@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>اتصال یوتیوب — سارو</title>
+<style>
+  body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;background:#141009;color:#efe6d2;font-family:Tahoma,'Segoe UI',sans-serif;padding:24px;box-sizing:border-box}
+  .card{max-width:560px;width:100%;background:#1c1610;border:1px solid rgba(201,162,39,.25);border-radius:20px;padding:32px 28px;text-align:center}
+  .mark{font-size:13px;letter-spacing:.3em;color:#c9a227;margin-bottom:14px}
+  h1{font-size:20px;margin:0 0 10px;font-weight:700}
+  p{font-size:14px;line-height:2;color:#b3a388;margin:6px 0}
+  .code{direction:ltr;text-align:left;word-break:break-all;background:#231b13;border:1px dashed rgba(201,162,39,.45);border-radius:12px;padding:14px 16px;font-family:monospace;font-size:14px;color:#e3c25c;margin:16px 0;min-height:20px}
+  button{background:#c9a227;color:#141009;border:0;border-radius:10px;padding:10px 22px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit}
+  .ok{color:#7bd88f}.warn{color:#d88f7b}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="mark">&#9670; SARO SCULPTURE &#9670;</div>
+  <h1>اتصال کانال یوتیوب</h1>
+  <div id="state"><p>در انتظار بازگشت از گوگل…</p></div>
+  <div class="code" id="code">&mdash;</div>
+  <button id="copy" style="display:none">کپی کد</button>
+  <p id="hint">اگر کد بالا پر شده، روی «کپی کد» بزن و در چت برای دستیار بفرست.</p>
+</div>
+<script>
+(function(){
+  var q=new URLSearchParams(location.search);
+  var c=q.get('code'), e=q.get('error');
+  var el=document.getElementById('state'), box=document.getElementById('code'), btn=document.getElementById('copy'), hint=document.getElementById('hint');
+  if(c){ box.textContent=c; el.innerHTML='<p class="ok">اجازه با موفقیت ثبت شد.</p><p>حالا دکمهٔ زیر را بزن و کد را در چت بفرست — تمام!</p>'; btn.style.display='inline-block'; }
+  else if(e){ box.textContent=e; el.innerHTML='<p class="warn">اجازه داده نشد: '+e+'</p><p>لطفاً در چت خبر بده.</p>'; hint.style.display='none'; }
+  else { el.innerHTML='<p>این صفحهٔ بازگشتِ اجازهٔ گوگل است.<br>فعلاً کاری با آن نداری — منتظر لینک اجازه از دستیار باش.</p>'; hint.style.display='none'; }
+  btn.onclick=function(){ if(navigator.clipboard){navigator.clipboard.writeText(box.textContent);} else {var r=document.createRange();r.selectNodeContents(box);var s=getSelection();s.removeAllRanges();s.addRange(r);document.execCommand('copy');} btn.textContent='کپی شد'; };
+})();
+</script>
+</body>
+</html>

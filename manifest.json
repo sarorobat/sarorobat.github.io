@@ -1,0 +1,27 @@
+{
+  "name": "Saro AI — ساخت ویدئو با هوش مصنوعی",
+  "short_name": "Saro AI",
+  "description": "سرویس ساخت ویدئو با هوش مصنوعی به سرپرستی محمود کهنسال «سارو»: سناریو، پرامپت آماده، راهنمای گام‌به‌گام و رفع خطا تا خروجی نهایی.",
+  "lang": "fa",
+  "dir": "rtl",
+  "id": "/saro-ai.html",
+  "start_url": "/saro-ai.html?utm_source=pwa",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#14100a",
+  "theme_color": "#14100a",
+  "categories": ["business", "education", "productivity"],
+  "icons": [
+    { "src": "/icons/saro-ai-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/saro-ai-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/saro-ai-512-maskable.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    {
+      "name": "سفارش از تلگرام",
+      "url": "/saro-ai.html?utm_source=pwa_shortcut#order",
+      "description": "سفارش و پیگیری در تلگرام"
+    }
+  ]
+}

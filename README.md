@@ -7,6 +7,7 @@ The official portfolio and archive of **Mahmoud Kohansal "Saro"** (محمود ک
 [![Website](https://img.shields.io/badge/Website-sarorobat.github.io-c9a227)](https://sarorobat.github.io/)
 [![Series](https://img.shields.io/badge/Series-اساطیر%20ایران%20کهنسال-8a6d1f)](https://sarorobat.github.io/)
 [![GitHub Pages](https://img.shields.io/badge/Hosted%20on-GitHub%20Pages-181717?logo=github)](https://pages.github.com/)
+[![Saro AI](https://img.shields.io/badge/Saro%20AI-AI%20Video%20Service-c9a227)](https://sarorobat.github.io/saro-ai.html)
 
 ## 🔗 Find Saro / راه‌های ارتباطی
 
@@ -17,8 +18,12 @@ The official portfolio and archive of **Mahmoud Kohansal "Saro"** (محمود ک
 | 🎬 Aparat — Saro_Sculpture | <https://www.aparat.com/Saro_Sculpture> |
 | 📷 Instagram — saro_sculpture@ | <https://www.instagram.com/saro_sculpture/> |
 | ✍️ Blog «پیکرتراشی سارو» | <https://zadrock2020.blogfa.com/> |
+| 💬 Telegram — orders & contact / سفارش و ارتباط | <https://t.me/sarosculpture> |
+| 🤖 Saro AI — AI video service / سرویس ساخت ویدئو | <https://sarorobat.github.io/saro-ai.html> |
 
 ## ✨ Featured / تازه‌ترین‌ها
+
+- **NEW — Saro AI؛ ساخت ویدئو با هوش مصنوعی — from idea to finished video** — we handle the hard part: script, tested prompts, step-by-step guidance and error fixing until the final output. Two plans (95,000 / 250,000 Toman per video), card-to-card payment, ordering via Telegram: [service page / صفحهٔ سرویس](https://sarorobat.github.io/saro-ai.html) · [sample video / نمونهٔ کار](https://sarorobat.github.io/video-github-intro.html)
 
 - **Educational video — “Introducing GitHub: A Sculptor's Simple Guide”** (English narration + precise Persian subtitles): [watch on YouTube](https://youtu.be/WnczW-dJTrE) · [Aparat](https://www.aparat.com/v/ryr2d09) · [video page on this site](https://sarorobat.github.io/video-github-intro.html)
 

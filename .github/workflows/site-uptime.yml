@@ -1,0 +1,78 @@
+name: site-uptime
+on:
+  schedule:
+    - cron: '*/30 * * * *'
+    - cron: '0 6 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Site HTTP check
+        id: http
+        run: |
+          code=$(curl -s -o /tmp/site.html -w '%{http_code}' https://sarorobat.github.io/)
+          size=$(stat -c%s /tmp/site.html 2>/dev/null || echo 0)
+          echo "code=$code size=$size" >> "$GITHUB_OUTPUT"
+          if [ "$code" = "200" ] && [ "$size" -gt 10000 ]; then
+            echo "ok=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "ok=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Freshness check (deployed build vs HEAD)
+        id: fresh
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          head=$(curl -s -H "Authorization: Bearer $GH_TOKEN" \
+            "https://api.github.com/repos/${{ github.repository }}/commits/main" | jq -r '.sha // ""')
+          latest=$(curl -s -H "Authorization: Bearer $GH_TOKEN" \
+            "https://api.github.com/repos/${{ github.repository }}/pages/builds/latest")
+          status=$(echo "$latest" | jq -r '.status // ""')
+          built=$(echo "$latest" | jq -r '.commit // ""')
+          echo "head=$head built=$built status=$status" >> "$GITHUB_OUTPUT"
+          if [ "$status" = "built" ] && [ "$built" = "$head" ]; then
+            echo "stale=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "stale=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Trigger Pages rebuild if unhealthy or stale
+        if: steps.http.outputs.ok != 'true' || steps.fresh.outputs.stale == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "rebuild needed (site ok: ${{ steps.http.outputs.ok }}, stale: ${{ steps.fresh.outputs.stale }})"
+          curl -s -X POST -H "Authorization: Bearer $GH_TOKEN" \
+            "https://api.github.com/repos/${{ github.repository }}/pages/builds" > /dev/null
+          sleep 90
+
+      - name: Re-verify after rebuild
+        if: steps.http.outputs.ok != 'true' || steps.fresh.outputs.stale == 'true'
+        run: |
+          code=$(curl -s -o /dev/null -w '%{http_code}' https://sarorobat.github.io/)
+          echo "post-rebuild HTTP $code"
+          latest=$(curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            "https://api.github.com/repos/${{ github.repository }}/pages/builds/latest")
+          echo "build status: $(echo "$latest" | jq -r '.status // ""')"
+
+      - name: Weekly heartbeat commit (keeps the schedule alive)
+        if: github.event.schedule == '0 6 * * 1'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          date -u +%Y-%m-%dT%H:%M:%SZ > /tmp/hb
+          sha=$(curl -s -H "Authorization: Bearer $GH_TOKEN" \
+            "https://api.github.com/repos/${{ github.repository }}/contents/heartbeat.json" | jq -r '.sha // ""')
+          content=$(base64 -w0 /tmp/hb)
+          jq -n --arg m "chore: weekly uptime heartbeat" --arg c "$content" --arg s "$sha" \
+            '{message:$m, content:$c, sha:(if $s=="" then null else $s end), branch:"main"}' > /tmp/body.json
+          curl -s -X PUT -H "Authorization: Bearer $GH_TOKEN" -d @/tmp/body.json \
+            "https://api.github.com/repos/${{ github.repository }}/contents/heartbeat.json" > /dev/null
+          echo "heartbeat committed"
